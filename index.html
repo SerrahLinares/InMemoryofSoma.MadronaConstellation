@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Madrona Constellation Night</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap');
+  :root{
+    --pearl:#EEEEEE; --paper:#F7F5F0; --ink:#2b2a28; --violet:#7744FF; --violet-deep:#5A2FD9;
+    --violet-soft:#EDE6FF; --muted:#8b8681; --gold:#C9A24B; --line:#e2dcd0; --night:#0f0d13;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--night);font-family:'Inter',sans-serif;color:var(--ink);}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px 80px;}
+
+  .hero{ padding:56px 20px 0; text-align:center; color:#fff; }
+  .logo{ height:20px; margin-bottom:22px; opacity:0.9; }
+  .eyebrow{ color:#B8A6FF; font-size:11px; letter-spacing:.2em; text-transform:uppercase; margin-bottom:14px;}
+  h1{ font-family:'Fraunces',serif; font-weight:700; font-size:42px; margin:0 0 12px; line-height:1.08;}
+  h1 em{ font-style:italic; color:#B8A6FF; }
+  .sub{ color:#B4AEC4; font-size:14px; max-width:560px; margin:0 auto 30px; line-height:1.6;}
+
+  .dome-frame{ max-width:960px; margin:0 auto; border-radius:18px; overflow:hidden; box-shadow:0 30px 70px rgba(0,0,0,0.5);}
+  .dome-cap{ background:#0c0a10; color:#8b85a0; font-size:11.5px; padding:10px 16px; text-align:center; border-top:1px solid #221f2a;}
+
+  .meta-row{ display:flex; gap:26px; justify-content:center; flex-wrap:wrap; margin:26px 0 50px; font-size:12px; color:#8b85a0;}
+  .meta-row b{ color:#fff; display:block; font-size:14.5px; margin-bottom:2px; font-family:'Fraunces',serif;}
+
+  section.light{ background:var(--paper); border-radius:18px; margin-top:34px; padding:40px 38px; border:1px solid var(--line);}
+  .kicker{ color:var(--violet); font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; margin-bottom:8px;}
+  h2{ font-family:'Fraunces',serif; font-size:25px; margin:0 0 10px; }
+  p.desc{ color:var(--muted); font-size:14px; line-height:1.65; max-width:650px; }
+
+  .format-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:24px;}
+  .fcard{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px; }
+  .fcard .ic{ width:34px; height:34px; border-radius:9px; background:var(--violet-soft); display:flex; align-items:center; justify-content:center; margin-bottom:12px; font-size:16px;}
+  .fcard h3{ font-size:15px; margin:0 0 6px; }
+  .fcard p{ font-size:12.5px; color:var(--muted); line-height:1.55; margin:0;}
+
+  .kiosk-wrap{ display:flex; gap:28px; align-items:flex-start; margin-top:26px; flex-wrap:wrap;}
+  .tablet{ width:300px; height:420px; background:#111; border-radius:26px; padding:14px; box-shadow:0 20px 45px rgba(0,0,0,0.18); flex-shrink:0;}
+  .tablet-screen{ width:100%; height:100%; background:#0f0d13; border-radius:14px; overflow:hidden; position:relative; color:#fff; display:flex; flex-direction:column;}
+  .ts-header{ padding:16px 16px 10px; border-bottom:1px solid #221f2a; font-size:10px; color:#8b85a0; letter-spacing:.08em; text-transform:uppercase;}
+  .ts-body{ flex:1; padding:16px; display:flex; flex-direction:column; gap:10px; }
+  .ts-title{ font-family:'Fraunces',serif; font-size:17px; line-height:1.3; margin-bottom:4px;}
+  .ts-opt{ background:#1b1826; border:1px solid #2c2838; border-radius:10px; padding:11px 12px; font-size:12.5px; display:flex; justify-content:space-between; align-items:center;}
+  .ts-opt.active{ border-color:var(--violet); background:#241c38; }
+  .ts-opt .arrow{ color:#B8A6FF; }
+  .ts-footer{ padding:14px 16px; border-top:1px solid #221f2a; }
+  .ts-btn{ background:var(--violet); color:#fff; text-align:center; padding:11px; border-radius:10px; font-weight:700; font-size:12.5px; }
+  .match-card{ background:#1b1826; border:1px solid #362a4a; border-radius:12px; padding:14px; }
+  .match-card .mname{ font-weight:700; font-size:14px; margin-bottom:2px;}
+  .match-card .mrole{ color:#B8A6FF; font-size:11px; margin-bottom:8px;}
+  .match-card .mpath{ font-size:11px; color:#a89fc2; line-height:1.5; margin-bottom:8px;}
+  .match-card .mcontact{ font-size:11px; color:#fff; background:#0f0d13; border-radius:8px; padding:8px 10px;}
+  .qr-block{ width:84px; height:84px; margin:8px auto 4px; background:repeating-conic-gradient(#fff 0% 25%, #0f0d13 0% 50%) 0 0/12px 12px; border-radius:6px;}
+  .deal-tag{ display:inline-block; background:var(--gold); color:#3a2c0f; font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:20px; margin-bottom:6px;}
+
+  .kiosk-nav{ display:flex; gap:10px; margin-top:14px; }
+  .kiosk-nav button{ background:var(--violet); color:#fff; border:none; border-radius:8px; padding:9px 15px; font-weight:700; font-size:12.5px; cursor:pointer; font-family:'Inter',sans-serif;}
+  .kiosk-nav button.ghost{ background:transparent; border:1px solid var(--line); color:var(--ink);}
+  .step-label{ font-size:11.5px; color:var(--muted); margin-top:10px;}
+
+  .steps-desc{ flex:1; min-width:260px; }
+  .steps-desc .srow{ display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--line);}
+  .steps-desc .srow:last-child{ border-bottom:none; }
+  .steps-desc .snum{ font-family:'Fraunces',serif; font-weight:700; color:var(--violet); font-size:13px; width:20px; flex-shrink:0;}
+  .steps-desc .stext b{ display:block; font-size:13.5px; margin-bottom:3px; }
+  .steps-desc .stext span{ font-size:12px; color:var(--muted); line-height:1.5;}
+
+  table{ width:100%; border-collapse:collapse; margin-top:16px; font-size:12.5px;}
+  th{ text-align:left; color:var(--muted); font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; padding:8px 10px; border-bottom:2px solid var(--ink);}
+  td{ padding:11px 10px; border-bottom:1px solid var(--line); }
+  td.tier{ font-weight:700; font-family:'Fraunces',serif; font-size:13.5px;}
+
+  .footer-note{ margin-top:16px; color:#8b85a0; font-size:11.5px; line-height:1.6;}
+
+  .tribute{ background:#161320; border:1px solid #2a2438; border-radius:16px; padding:30px 34px; margin:34px auto 0; max-width:960px; color:#d8d2e6;}
+  .tribute .kicker.trib{ color:#C9A24B; }
+  .tribute h2{ color:#fff; font-size:22px; }
+  .tribute p{ font-size:13.5px; line-height:1.75; color:#b6aecb; max-width:none; }
+  .tribute .signoff{ margin-top:14px; font-size:12px; color:#8b85a0; font-style:italic; }
+
+  .booth-wrap{ display:flex; gap:28px; align-items:flex-start; margin-top:24px; flex-wrap:wrap;}
+  .booth-frame{
+    width:260px; height:340px; border-radius:16px; overflow:hidden; position:relative; flex-shrink:0;
+    background: radial-gradient(circle at 50% 30%, #241d36, #0a0812 75%);
+    box-shadow:0 20px 45px rgba(0,0,0,0.3); border:1px solid #241f30;
+  }
+  .booth-frame svg{ width:100%; height:100%; display:block; }
+  .booth-caption{ position:absolute; bottom:0; left:0; right:0; background:rgba(10,8,18,0.75); padding:10px 14px; text-align:center; }
+  .booth-caption .bname{ color:#fff; font-weight:700; font-size:13px; font-family:'Fraunces',serif;}
+  .booth-caption .btag{ color:#B8A6FF; font-size:10px; letter-spacing:.05em;}
+  .booth-desc .srow{ display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--line);}
+  .booth-desc .srow:last-child{ border-bottom:none; }
+  .booth-desc .snum{ font-family:'Fraunces',serif; font-weight:700; color:var(--violet); font-size:13px; width:20px; flex-shrink:0;}
+  .booth-desc .stext b{ display:block; font-size:13.5px; margin-bottom:3px; }
+  .booth-desc .stext span{ font-size:12px; color:var(--muted); line-height:1.5;}
+
+  /* twinkle + drift */
+  .twinkle{ animation: tw linear infinite; }
+  @keyframes tw{ 0%,100%{opacity:var(--o1);} 50%{opacity:var(--o2);} }
+  .drift{ animation: dr ease-in-out infinite alternate; }
+  @keyframes dr{ 0%{ transform:translate(0,0); } 100%{ transform:translate(var(--dx), var(--dy)); } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img class="logo" src="data:image/png;base64,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" alt="Vieu">
+  <div class="eyebrow">Event Prototype · Seattle Tech Week 2026</div>
+  <h1>Madrona Constellation Night</h1>
+  <div class="sub" style="margin-bottom:10px;">A walk-through, open-bar evening at the Pacific Science Center Laser Dome — drop in anytime over three hours, watch the entire Madrona network unfold overhead as it slowly hones in on different corners of itself, and leave with one real connection.</div>
+  <div class="sub" style="color:#C9A24B; font-style:italic; font-size:13px;">Held in memory of S. "Soma" Somasegar (1966–2026)</div>
+</div>
+
+<div class="dome-frame">
+  <svg id="dome" viewBox="0 0 1000 560" style="width:100%; display:block; background:#07060c;"></svg>
+  <div class="dome-cap">Illustrative rendering — every point is a member of Madrona's network, not just the room. The dome slowly hones in on different corners of it through the night — look up long enough and you might catch your own name.</div>
+</div>
+
+<div class="meta-row">
+  <span><b>Mon, Jul 27</b>Tech Week opens</span>
+  <span><b>6:00–9:00pm</b>Walk-through window</span>
+  <span><b>Laser Dome</b>Pacific Science Center</span>
+  <span><b>Open bar</b>all evening</span>
+</div>
+
+<div class="tribute">
+  <div class="kicker trib">In memory</div>
+  <h2>Soma</h2>
+  <p>S. "Soma" Somasegar spent 27 years at Microsoft, rising to lead the Developer Division and shaping the tools — Visual Studio, .NET, generations of Windows — that a huge share of this room built their careers on. After retiring in 2015, he joined Madrona as a Managing Director, where for over a decade he was one of the most trusted mentors in this exact ecosystem: patient with first-time founders, generous with his time, and known across Seattle for making everyone he met feel like the most important person in the room. He passed away suddenly on May 19, 2026, at 59. He's survived by his wife, Akila, and their two daughters.</p>
+  <p>Madrona Constellation Night sits inside the ecosystem Soma spent a decade building up — so we'd like to hold it in his name, with his family's requested causes, the YWCA (King County/Snohomish) and the UN Foundation, receiving a share of whatever the evening raises or a matching donation from Vieu.</p>
+  <div class="signoff">This section should be shared with Madrona before anything goes out publicly — a dedication like this deserves their blessing, and likely Akila's, before Vieu's name is attached to it.</div>
+</div>
+
+
+<div class="wrap">
+
+  <section class="light">
+    <div class="kicker">Format</div>
+    <h2>Drop in, not sit down</h2>
+    <p class="desc">No fixed program, no forced seating — this is built for people bouncing between Tech Week events all night. Come for ten minutes or the full three hours.</p>
+    <div class="format-grid">
+      <div class="fcard">
+        <div class="ic">↻</div>
+        <h3>Always-on dome</h3>
+        <p>The whole Madrona network is up there from the start — thousands of points, not just tonight's guest list. Every few minutes the view slowly pans and zooms into a different corner of it, so there's always something new overhead, whenever you arrive.</p>
+      </div>
+      <div class="fcard">
+        <div class="ic">🍸</div>
+        <h3>Open bar, no pitch</h3>
+        <p>Full open bar the entire window. Nobody's asked to sit through a talk — the tablets and the dome do the work while people just mingle.</p>
+      </div>
+      <div class="fcard">
+        <div class="ic">📱</div>
+        <h3>Tablet stations</h3>
+        <p>4–6 stations around the room, staffed lightly, so there's never a long wait — each one takes a guest under two minutes start to finish.</p>
+      </div>
+      <div class="fcard">
+        <div class="ic">📸</div>
+        <h3>Photo booth</h3>
+        <p>Optional — scan a LinkedIn or drop a name and email, and your portrait is composited straight into the constellation, your name glowing in the backdrop behind you.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="light">
+    <div class="kicker">The tablet flow</div>
+    <h2>What a guest actually sees</h2>
+    <p class="desc">Four short steps, two minutes total. Click through below to see the whole thing. Using a tablet also queues your name to surface during one of the dome's periodic sweeps later in the night — the personal payoff for the people who stop and use a station.</p>
+    <div class="kiosk-wrap">
+      <div>
+        <div class="tablet">
+          <div class="tablet-screen" id="screen"></div>
+        </div>
+        <div class="kiosk-nav">
+          <button class="ghost" id="prevBtn">← Back</button>
+          <button id="nextBtn">Next →</button>
+        </div>
+        <div class="step-label" id="stepLabel">Step 1 of 4</div>
+      </div>
+      <div class="steps-desc">
+        <div class="srow"><div class="snum">01</div><div class="stext"><b>What are you here to find?</b><span>Five plain-language categories — no form fields, no typing required to start.</span></div></div>
+        <div class="srow"><div class="snum">02</div><div class="stext"><b>One quick refinement</b><span>A single follow-up scoped to their pick — e.g. investment stage, or a company name for buyers.</span></div></div>
+        <div class="srow"><div class="snum">03</div><div class="stext"><b>Their real connection</b><span>One person, their warm path through Madrona's network, and contact info — not a list to sort through.</span></div></div>
+        <div class="srow"><div class="snum">04</div><div class="stext"><b>Claim the Tech Week deal</b><span>QR to try.vieu — a startup package pre-loaded, framed through AWS Marketplace.</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light">
+    <div class="kicker">Optional add-on</div>
+    <h2>The photo booth</h2>
+    <p class="desc">A step past the tablets — this is for the person who wants a keepsake, not just a data point. Scan a LinkedIn or drop a name and email, and a portrait is composited live against the constellation, their own name glowing in the backdrop right behind them. Fully optional; nobody's asked twice.</p>
+    <div class="booth-wrap">
+      <div class="booth-frame">
+        <svg id="boothsvg" viewBox="0 0 260 340"></svg>
+        <div class="booth-caption">
+          <div class="bname">Priya M.</div>
+          <div class="btag">MADRONA CONSTELLATION NIGHT</div>
+        </div>
+      </div>
+      <div class="booth-desc">
+        <div class="srow"><div class="snum">01</div><div class="stext"><b>Stand at the mark</b><span>A small floor marker under the dome's brightest section — no green screen rig needed, the dome itself is the backdrop.</span></div></div>
+        <div class="srow"><div class="snum">02</div><div class="stext"><b>Scan or type in</b><span>LinkedIn QR for one-tap, or just a name and email if someone would rather not scan anything.</span></div></div>
+        <div class="srow"><div class="snum">03</div><div class="stext"><b>Their name joins the field</b><span>Their node lights up gold in the live backdrop behind them for the photo — the same node that may resurface later during one of the dome's sweeps.</span></div></div>
+        <div class="srow"><div class="snum">04</div><div class="stext"><b>Printed or sent</b><span>A small physical print at the booth, plus a digital copy texted or emailed for posting.</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light">
+    <div class="kicker">Social loop</div>
+    <h2>What travels past the room</h2>
+    <p class="desc">Three things guests can post without any prompting from staff: their photo booth portrait with their name lit up in the constellation behind them, a phone photo of the dome itself (it's genuinely photogenic on its own), and their personal connection card from the tablet flow, formatted to drop straight into a LinkedIn post. All three carry <b>#SeattleTechWeek</b> and a quiet Madrona + Vieu mark, not a hard sell.</p>
+  </section>
+
+  <section class="light">
+    <div class="kicker">Getting around</div>
+    <h2>Where this sits relative to the rest of the week</h2>
+    <p class="desc">PacSci is a short walk from the downtown cluster, right next to AI House — but a real drive from SoDo or UW. Worth factoring into when in the night people are likely to swing by.</p>
+    <table>
+      <tr><th>Venue</th><th>Distance</th><th>Travel time</th></tr>
+      <tr><td>AI House</td><td>~0.4 mi</td><td>8 min walk</td></tr>
+      <tr><td>Showbox at the Market</td><td>~1 mi</td><td>20 min walk / 5 min drive</td></tr>
+      <tr><td>EY wavespace (downtown)</td><td>~1.3 mi</td><td>25 min walk / 6 min drive</td></tr>
+      <tr><td>UW CoMotion / Fluke Hall</td><td>~3 mi</td><td>10 min drive</td></tr>
+      <tr><td>Picklewood Paddle Club (kickoff)</td><td>~3.8 mi</td><td>10–15 min drive</td></tr>
+    </table>
+  </section>
+
+  <section class="light">
+    <div class="kicker">Budget tiers</div>
+    <h2>Three ways to run it</h2>
+    <table>
+      <tr><th>Tier</th><th>What changes</th></tr>
+      <tr><td class="tier">Lean</td><td>Beer/wine only instead of full open bar. 2 tablet stations instead of 5. Static screen instead of dome projection.</td></tr>
+      <tr><td class="tier">Signature</td><td>Full open bar, dome booked, 4–6 tablets, share-card generation live at each station.</td></tr>
+      <tr><td class="tier">Full Production</td><td>Everything in Signature plus Madrona co-branding on the invite and a dedicated AWS Marketplace landing flow built specifically for this night.</td></tr>
+    </table>
+  </section>
+
+</div>
+
+<script>
+const svg = document.getElementById('dome');
+const NS = "http://www.w3.org/2000/svg";
+const cx = 500, cy = 250, R = 400;
+
+function el(name, attrs){
+  const e = document.createElementNS(NS, name);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+function rand(a,b){ return a + Math.random()*(b-a); }
+
+const defs = el('defs', {});
+const grad = el('radialGradient', {id:'domeGlow', cx:'50%', cy:'38%', r:'70%'});
+grad.appendChild(el('stop', {offset:'0%', 'stop-color':'#28203c'}));
+grad.appendChild(el('stop', {offset:'55%', 'stop-color':'#150f22'}));
+grad.appendChild(el('stop', {offset:'100%', 'stop-color':'#07060c'}));
+defs.appendChild(grad);
+const clip = el('clipPath', {id:'domeClip'});
+clip.appendChild(el('circle', {cx:cx, cy:cy, r:R}));
+defs.appendChild(clip);
+const vgrad = el('radialGradient', {id:'vignette', cx:'50%', cy:'42%', r:'78%'});
+vgrad.appendChild(el('stop', {offset:'55%', 'stop-color':'#000', 'stop-opacity':0}));
+vgrad.appendChild(el('stop', {offset:'100%', 'stop-color':'#000', 'stop-opacity':0.6}));
+defs.appendChild(vgrad);
+svg.appendChild(defs);
+
+svg.appendChild(el('rect', {x:0,y:0,width:1000,height:560,fill:'#07060c'}));
+svg.appendChild(el('circle', {cx:cx, cy:cy, r:R, fill:'url(#domeGlow)'}));
+
+// geodesic triangular grid, clipped to dome circle
+const gridG = el('g', {'clip-path':'url(#domeClip)', stroke:'#332c4a', 'stroke-width':1, opacity:0.4});
+const spacing = 40;
+for(let a=0; a<3; a++){
+  const angle = a*60*Math.PI/180;
+  const dx = Math.cos(angle)*spacing, dy = Math.sin(angle)*spacing;
+  const ox = -Math.sin(angle)*spacing, oy = Math.cos(angle)*spacing;
+  for(let i=-25; i<25; i++){
+    const bx = cx + ox*i, by = cy + oy*i;
+    gridG.appendChild(el('line', {x1:bx-dx*35, y1:by-dy*35, x2:bx+dx*35, y2:by+dy*35}));
+  }
+}
+svg.appendChild(gridG);
+svg.appendChild(el('circle', {cx:cx, cy:cy, r:R, fill:'none', stroke:'#241f34', 'stroke-width':2}));
+
+// dense glittering star/particle field, clipped to dome
+const starG = el('g', {'clip-path':'url(#domeClip)'});
+for(let i=0;i<260;i++){
+  const rx = Math.random()*R, ang = Math.random()*Math.PI*2;
+  const sx = cx + Math.cos(ang)*rx, sy = cy + Math.sin(ang)*rx*0.6;
+  const r = rand(0.4, 1.6);
+  const o1 = rand(0.08, 0.35), o2 = rand(0.5, 0.95);
+  const dur = rand(1.8, 4.5), delay = rand(0, 4);
+  const c = el('circle', {cx:sx, cy:sy, r, fill:'#e8e2f5'});
+  c.setAttribute('class','twinkle');
+  c.style.setProperty('--o1', o1);
+  c.style.setProperty('--o2', o2);
+  c.style.animationDuration = dur+'s';
+  c.style.animationDelay = delay+'s';
+  starG.appendChild(c);
+}
+svg.appendChild(starG);
+
+// GUEST NODES — many small points representing individual attendees, gently drifting
+const guestG = el('g', {'clip-path':'url(#domeClip)'});
+const guestPositions = [];
+for(let i=0;i<160;i++){
+  const rx = Math.random()*R*0.92, ang = Math.random()*Math.PI*2;
+  const gx = cx + Math.cos(ang)*rx, gy = cy + Math.sin(ang)*rx*0.6;
+  guestPositions.push({x:gx, y:gy});
+}
+// faint connecting lines between some nearby guests (sparse, evokes an expanding graph)
+const guestLinkG = el('g', {stroke:'#8a6fd6', 'stroke-width':0.6, opacity:0.22});
+for(let i=0;i<90;i++){
+  const a = guestPositions[Math.floor(Math.random()*guestPositions.length)];
+  const b = guestPositions[Math.floor(Math.random()*guestPositions.length)];
+  const dist = Math.hypot(a.x-b.x, a.y-b.y);
+  if(dist < 90 && dist > 5){
+    guestLinkG.appendChild(el('line', {x1:a.x, y1:a.y, x2:b.x, y2:b.y}));
+  }
+}
+svg.appendChild(guestLinkG);
+guestPositions.forEach(p=>{
+  const r = rand(1.6, 3.2);
+  const dx = rand(-6,6), dy = rand(-6,6);
+  const dur = rand(4,9), delay = rand(0,5);
+  const dot = el('circle', {cx:p.x, cy:p.y, r, fill:'#B08CFF', opacity:rand(0.35,0.8)});
+  dot.setAttribute('class','drift');
+  dot.style.setProperty('--dx', dx+'px');
+  dot.style.setProperty('--dy', dy+'px');
+  dot.style.animationDuration = dur+'s';
+  dot.style.animationDelay = delay+'s';
+  guestG.appendChild(dot);
+});
+svg.appendChild(guestG);
+
+// slow-sweeping spotlight suggesting the dome "honing in" on different corners of the network
+const spot = el('circle', {r:130, fill:'url(#spotGlow)', 'clip-path':'url(#domeClip)'});
+const spotGrad = el('radialGradient', {id:'spotGlow', cx:'50%', cy:'50%', r:'50%'});
+spotGrad.appendChild(el('stop', {offset:'0%', 'stop-color':'#C9A24B', 'stop-opacity':0.28}));
+spotGrad.appendChild(el('stop', {offset:'100%', 'stop-color':'#C9A24B', 'stop-opacity':0}));
+defs.appendChild(spotGrad);
+const anim = document.createElementNS(NS, 'animateMotion');
+anim.setAttribute('dur', '22s');
+anim.setAttribute('repeatCount', 'indefinite');
+anim.setAttribute('path', `M ${cx-260},${cy-100} C ${cx-100},${cy-220} ${cx+180},${cy-160} ${cx+260},${cy+30} C ${cx+120},${cy+180} ${cx-180},${cy+150} ${cx-260},${cy-100} Z`);
+spot.appendChild(anim);
+svg.appendChild(spot);
+
+// hub nodes — the Madrona ecosystem anchors, larger and labeled
+const nodePositions = [
+  {x:cx, y:cy-60, r:18, c:'#7744FF', label:'Madrona'},
+  {x:cx-220, y:cy-130, r:10, c:'#B08CFF', label:'Smartsheet'},
+  {x:cx+230, y:cy-100, r:10, c:'#B08CFF', label:'Temporal'},
+  {x:cx-150, y:cy+40, r:9, c:'#B08CFF', label:'Redfin'},
+  {x:cx+170, y:cy+60, r:9, c:'#B08CFF', label:'Gradial'},
+  {x:cx-300, y:cy-10, r:7, c:'#cfc7b8', label:'a16z'},
+  {x:cx+310, y:cy-30, r:7, c:'#cfc7b8', label:'Sequoia'},
+  {x:cx-70, y:cy+150, r:10, c:'#C9A24B', label:'Rover'},
+  {x:cx+90, y:cy-220, r:8, c:'#B08CFF', label:'Axiom'},
+  {x:cx-380, y:cy+90, r:6, c:'#cfc7b8', label:'Tiger Global'},
+  {x:cx+360, y:cy+110, r:6, c:'#cfc7b8', label:'NEA'}
+];
+const links = [[0,1],[0,2],[0,3],[0,4],[1,5],[2,6],[3,7],[0,8],[3,9],[4,10]];
+const lineG = el('g', {stroke:'#7744FF', 'stroke-width':1.5, opacity:0.6});
+links.forEach(([a,b])=>{
+  const A = nodePositions[a], B = nodePositions[b];
+  lineG.appendChild(el('line', {x1:A.x,y1:A.y,x2:B.x,y2:B.y}));
+});
+svg.appendChild(lineG);
+const nodeG = el('g', {});
+nodePositions.forEach(n=>{
+  nodeG.appendChild(el('circle', {cx:n.x, cy:n.y, r:n.r*2.4, fill:n.c, opacity:0.14}));
+  nodeG.appendChild(el('circle', {cx:n.x, cy:n.y, r:n.r, fill:n.c, stroke:'#fff', 'stroke-width':1.2}));
+  const label = el('text', {x:n.x, y:n.y - n.r - 9, 'text-anchor':'middle', fill:'#e8e4f0', 'font-size':11.5, 'font-family':'Inter, sans-serif', 'font-weight':600});
+  label.textContent = n.label;
+  nodeG.appendChild(label);
+});
+svg.appendChild(nodeG);
+
+// crowd silhouettes along bottom looking up
+svg.appendChild(el('rect', {x:0, y:475, width:1000, height:85, fill:'#07060c'}));
+const crowdG = el('g', {fill:'#07060c'});
+for(let i=0;i<14;i++){
+  const px = 30 + i*72 + rand(-10,10);
+  const headY = 480 - rand(0,14);
+  crowdG.appendChild(el('ellipse', {cx:px, cy: headY, rx:16, ry:19}));
+  crowdG.appendChild(el('path', {d:`M ${px-30} 560 Q ${px} ${headY+8} ${px+30} 560 Z`}));
+}
+svg.appendChild(crowdG);
+svg.appendChild(el('rect', {x:0, y:0, width:1000, height:560, fill:'url(#vignette)'}));
+
+// KIOSK MOCK
+const screens = [
+  { header: "Step 1 of 4", render: () => `
+      <div class="ts-body">
+        <div class="ts-title">What are you here to find tonight?</div>
+        <div class="ts-opt active"><span>💰 Investors</span><span class="arrow">›</span></div>
+        <div class="ts-opt"><span>🏢 Buyers at a company</span><span class="arrow">›</span></div>
+        <div class="ts-opt"><span>🎯 Customers who fit us</span><span class="arrow">›</span></div>
+        <div class="ts-opt"><span>👤 Senior talent</span><span class="arrow">›</span></div>
+        <div class="ts-opt"><span>🧭 Advisors</span><span class="arrow">›</span></div>
+      </div>` },
+  { header: "Step 2 of 4", render: () => `
+      <div class="ts-body">
+        <div class="ts-title">What stage of investor?</div>
+        <div class="ts-opt active"><span>Seed</span><span class="arrow">✓</span></div>
+        <div class="ts-opt"><span>Series A</span></div>
+        <div class="ts-opt"><span>Strategic / corporate</span></div>
+        <div class="ts-opt"><span>Angel</span></div>
+      </div>
+      <div class="ts-footer"><div class="ts-btn">Find my connection →</div></div>` },
+  { header: "Step 3 of 4", render: () => `
+      <div class="ts-body">
+        <div class="ts-title" style="font-size:15px;">Here's your connection</div>
+        <div class="match-card">
+          <div class="mname">Dana Reyes</div>
+          <div class="mrole">Partner, Seed-stage AI · via Madrona</div>
+          <div class="mpath">2 degrees away — through a Madrona portfolio founder you're both connected to.</div>
+          <div class="mcontact">dana@[fund].vc · warm intro ready</div>
+        </div>
+      </div>
+      <div class="ts-footer"><div class="ts-btn">Claim your Tech Week deal →</div></div>` },
+  { header: "Step 4 of 4", render: () => `
+      <div class="ts-body" style="align-items:center; text-align:center;">
+        <div class="deal-tag">Seattle Tech Week only</div>
+        <div class="ts-title" style="font-size:16px;">Vieu for Startups</div>
+        <div style="font-size:11.5px; color:#a89fc2; line-height:1.5;">via AWS Marketplace — scan to activate your package</div>
+        <div class="qr-block"></div>
+        <div style="font-size:10.5px; color:#6b6580;">try.vieu/techweek</div>
+      </div>` }
+];
+let step = 0;
+function renderScreen(){
+  document.getElementById('screen').innerHTML =
+    `<div class="ts-header">${screens[step].header}</div>${screens[step].render()}`;
+  document.getElementById('stepLabel').textContent = `Step ${step+1} of ${screens.length}`;
+  document.getElementById('prevBtn').disabled = step===0;
+  document.getElementById('nextBtn').textContent = step===screens.length-1 ? "Restart" : "Next →";
+}
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  step = (step===screens.length-1) ? 0 : step+1;
+  renderScreen();
+});
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  if(step>0){ step--; renderScreen(); }
+});
+renderScreen();
+
+// PHOTO BOOTH MINI RENDER
+(function(){
+  const bsvg = document.getElementById('boothsvg');
+  const NS2 = "http://www.w3.org/2000/svg";
+  function be(name, attrs){ const e = document.createElementNS(NS2, name); for(const k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  function brand(a,b){ return a + Math.random()*(b-a); }
+
+  bsvg.appendChild(be('rect', {x:0,y:0,width:260,height:340,fill:'#0a0812'}));
+  for(let i=0;i<140;i++){
+    const x = brand(0,260), y = brand(0,260);
+    const r = brand(0.5,1.8);
+    bsvg.appendChild(be('circle', {cx:x, cy:y, r, fill:'#cfc7de', opacity:brand(0.15,0.7)}));
+  }
+  for(let i=0;i<14;i++){
+    bsvg.appendChild(be('line', {x1:brand(0,260), y1:brand(0,260), x2:brand(0,260), y2:brand(0,260), stroke:'#7744FF', 'stroke-width':0.6, opacity:0.25}));
+  }
+  const nx = 170, ny = 70;
+  bsvg.appendChild(be('circle', {cx:nx, cy:ny, r:16, fill:'#C9A24B', opacity:0.22}));
+  bsvg.appendChild(be('circle', {cx:nx, cy:ny, r:6, fill:'#C9A24B', stroke:'#fff', 'stroke-width':1}));
+  const lbl = be('text', {x:nx, y:ny-14, 'text-anchor':'middle', fill:'#fff', 'font-size':10, 'font-family':'Inter, sans-serif', 'font-weight':700});
+  lbl.textContent = "Priya M.";
+  bsvg.appendChild(lbl);
+  const sil = be('g', {fill:'#050309'});
+  sil.appendChild(be('ellipse', {cx:130, cy:230, rx:46, ry:60}));
+  sil.appendChild(be('path', {d:'M 60 340 Q 130 230 200 340 Z'}));
+  bsvg.appendChild(sil);
+})();
+
+</script>
+</body>
+</html>
